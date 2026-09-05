@@ -277,7 +277,8 @@ h3 {
 
 .hero__actions .button--primary img {
   width: clamp(16px, 13px + 0.5vw, 20px);
-  height: clamp(18px, 15px + 0.6vw, 24px);
+  height: clamp(16px, 13px + 0.5vw, 20px);
+  filter: brightness(0) invert(1);
 }
 
 .site-header {
@@ -452,7 +453,9 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .menu-toggle,
-.mobile-menu {
+.mobile-menu,
+.mobile-quick-actions,
+.back-to-top {
   display: none;
 }
 
@@ -518,25 +521,6 @@ body.menu-open .desktop-nav__secondary {
   left: 3%;
 }
 
-.trust-list {
-  display: grid;
-  gap: 10px;
-}
-
-.trust-list p {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.trust-list img {
-  width: 25px;
-  height: 25px;
-  flex: 0 0 auto;
-}
-
 .quick-info {
   display: flex;
   flex-wrap: wrap;
@@ -556,8 +540,8 @@ body.menu-open .desktop-nav__secondary {
 
 .quick-info p > img,
 .quick-info a > img {
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
   flex: 0 0 auto;
 }
 
@@ -575,11 +559,24 @@ body.menu-open .desktop-nav__secondary {
 .hero__media video {
   width: 100%;
   height: 100%;
+  border-radius: 5px;
   object-fit: cover;
 }
 
 .mobile-assurance {
   display: none;
+}
+
+.section-divider {
+  overflow: hidden;
+  height: clamp(180px, 24vw, 320px);
+}
+
+.section-divider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
 }
 
 .about {
@@ -605,6 +602,7 @@ body.menu-open .desktop-nav__secondary {
   width: 100%;
   height: auto;
   aspect-ratio: 351.5 / 829;
+  border-radius: 5px;
   object-fit: cover;
 }
 
@@ -672,40 +670,60 @@ body.menu-open .desktop-nav__secondary {
 
 .pricing-card {
   margin-top: 46px;
-  padding: 26px 30px 24px;
-  border-radius: var(--radius);
-  background: var(--white);
+  padding: 20px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--blue-active);
   box-shadow: var(--shadow);
+  color: var(--white);
+}
+
+.pricing-card dt,
+.pricing-card dd,
+.pricing-card__note,
+.pricing-card__insurance {
+  letter-spacing: 0.04em;
+  font-weight: 300;
 }
 
 .pricing-card__toggle {
-  display: block;
+  display: flex;
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   border: 0;
-  background: none;
+  background: transparent;
   padding: 0;
   margin: 0;
-  text-align: left;
-  cursor: default;
-  font: inherit;
   color: inherit;
-}
-
-.pricing-card h3 {
-  color: var(--text);
-  font-size: 20px;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
 .pricing-card__toggle-icon {
-  display: none;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--ease);
 }
 
-.pricing-card__details[hidden] {
-  display: block;
+.pricing-card__toggle.is-open .pricing-card__toggle-icon {
+  transform: rotate(180deg);
 }
 
-.pricing-card dl {
+.pricing-card__details {
+  overflow: hidden;
+  max-height: 375px;
   margin-top: 20px;
+  transition: max-height var(--ease), margin-top var(--ease);
+}
+
+.pricing-card__details.is-collapsed {
+  max-height: 0;
+  margin-top: 0;
 }
 
 .pricing-card dl > div {
@@ -726,19 +744,11 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .pricing-card__insurance {
-  display: flex;
-  align-items: center;
-  gap: 15px;
   margin-top: 18px;
-  border-top: 1px solid var(--border);
-  padding-top: 18px;
+  border-radius: var(--radius-card);
+  background: var(--blue-800);
+  padding: 20px;
   font-size: 16px;
-}
-
-.pricing-card__insurance img {
-  width: 25px;
-  height: 25px;
-  flex: 0 0 auto;
 }
 
 .treatments-intro__media {
@@ -748,6 +758,7 @@ body.menu-open .desktop-nav__secondary {
 .treatments-intro__media img {
   width: 100%;
   height: 100%;
+  border-radius: 5px;
   object-fit: cover;
 }
 
@@ -783,6 +794,7 @@ body.menu-open .desktop-nav__secondary {
 .specialty-feature__media {
   position: relative;
   overflow: hidden;
+  border-radius: 5px;
 }
 
 .specialty-feature__media > img {
@@ -792,7 +804,7 @@ body.menu-open .desktop-nav__secondary {
   transition: opacity var(--ease), transform var(--ease-slow);
 }
 
-.specialty-feature__copy h3 ~ p {
+.specialty-feature__body p {
   font-weight: 300;
   letter-spacing: 0.04em;
 }
@@ -864,12 +876,16 @@ body.menu-open .desktop-nav__secondary {
   letter-spacing: 0.04em;
 }
 
-.specialty-feature__copy h3 + p {
+.specialty-feature__title-card + .specialty-feature__body {
   margin-top: 30px;
 }
 
-.specialty-feature__copy p + p {
+.specialty-feature__body p + p {
   margin-top: 22px;
+}
+
+.specialty-feature__title-icon {
+  display: none;
 }
 
 .specialty-tabs {
@@ -976,7 +992,7 @@ body.menu-open .desktop-nav__secondary {
 
 .therapist-card {
   position: relative;
-  min-height: clamp(650px, 47vw, 950px);
+  min-height: clamp(455px, 33vw, 665px);
 }
 
 .therapist-card__identity h3 {
@@ -991,7 +1007,7 @@ body.menu-open .desktop-nav__secondary {
 .therapist-card__portrait {
   display: block;
   width: min(100%, 495px);
-  height: clamp(550px, 36vw, 780px);
+  height: clamp(385px, 25vw, 546px);
   margin: 26px auto 0;
   object-fit: contain;
   object-position: bottom;
@@ -1034,7 +1050,7 @@ body.menu-open .desktop-nav__secondary {
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--ease);
 }
 
 .therapist-card__expertise-toggle.is-open .therapist-card__expertise-icon {
@@ -1043,9 +1059,9 @@ body.menu-open .desktop-nav__secondary {
 
 .therapist-card__expertise-panel {
   overflow: hidden;
-  max-height: 160px;
+  max-height: 120px;
   margin-top: 12px;
-  transition: max-height 160ms var(--ease), margin-top 160ms var(--ease);
+  transition: max-height var(--ease), margin-top var(--ease);
 }
 
 .therapist-card__expertise-panel p {
@@ -1067,7 +1083,7 @@ body.menu-open .desktop-nav__secondary {
   padding: 14px 20px;
   border-radius: var(--radius-card);
   box-shadow: var(--shadow);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 200;
   letter-spacing: 0.04em;
 }
@@ -1126,15 +1142,6 @@ body.menu-open .desktop-nav__secondary {
   object-fit: contain;
 }
 
-.therapist-card__more {
-  padding-left: 10px;
-  color: var(--text);
-  font-size: 15px;
-  font-weight: 300;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .contact {
   background: var(--cream);
 }
@@ -1166,6 +1173,11 @@ body.menu-open .desktop-nav__secondary {
   border-radius: var(--radius-card);
   background: var(--white);
   box-shadow: var(--shadow);
+}
+
+.contact-form,
+.contact-form * {
+  letter-spacing: 0.04em;
 }
 
 .onedoc-card {
@@ -1202,9 +1214,20 @@ body.menu-open .desktop-nav__secondary {
   object-fit: cover;
 }
 
-.onedoc-button img:last-child {
+.onedoc-button__external-icon {
+  flex: 0 0 auto;
   width: 20px;
   height: 20px;
+}
+
+.onedoc-button__label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.onedoc-button__label small {
+  display: none;
 }
 
 .practical-card {
@@ -1212,9 +1235,13 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .practical-card h3,
-.contact-form h3 {
+.contact-form h2 {
   color: var(--text);
   font-size: 20px;
+}
+
+.contact-form__title-icon {
+  display: none;
 }
 
 .practical-card ul {
@@ -1234,8 +1261,8 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .practical-card li img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   flex: 0 0 auto;
 }
 
@@ -1268,7 +1295,7 @@ body.menu-open .desktop-nav__secondary {
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 20px;
+  gap: 18px 10px;
   margin-top: 22px;
 }
 
@@ -1336,6 +1363,31 @@ textarea:focus {
   margin-top: 16px;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.privacy-note__toggle {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: default;
+  font: inherit;
+  color: inherit;
+}
+
+.privacy-note__toggle-icon {
+  display: none;
+}
+
+.privacy-note__details[hidden] {
+  display: block;
+}
+
+.privacy-note__details {
+  margin-top: 4px;
 }
 
 .form-status {
@@ -1631,7 +1683,7 @@ textarea:focus {
   }
 
   html {
-    scroll-padding-top: 72px;
+    scroll-padding-top: 0;
   }
 
   /* Échelle mobile : display 40 / title 28 / heading 19 / body 16 / small 14 / eyebrow 11 */
@@ -1691,8 +1743,33 @@ textarea:focus {
     background: transparent;
   }
 
+  .site-header.is-scrolled {
+    background: transparent;
+    box-shadow: none;
+  }
+
   .brand {
     width: 150px;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear 0s;
+  }
+
+  .site-header.is-compact .brand {
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear var(--ease-slow);
+  }
+
+  body.menu-open .site-header .brand {
+    width: 150px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear 0s;
   }
 
   .brand img {
@@ -1707,12 +1784,196 @@ textarea:focus {
 
   .menu-toggle {
     color: var(--white);
-    transition: color var(--ease-slow);
+    border-radius: 50%;
+    transition: background-color var(--ease-slow), box-shadow var(--ease-slow);
   }
 
-  .site-header.is-scrolled .menu-toggle,
-  body.menu-open .menu-toggle {
+  .site-header.is-compact .menu-toggle {
+    background: var(--blue-active);
+  }
+
+  body.menu-open .site-header .menu-toggle {
     color: var(--blue-deep);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* LEGACY (rollback) — left-side horizontal pill, faded in once fully past the hero.
+     To restore: delete the "docked stack" rules below (up to the next comment marker)
+     and uncomment this block instead; in script.js swap the `is-actions-docked` toggle
+     back to reading `is-past-hero` (kept computed, just unused by CSS right now).
+  .mobile-quick-actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0;
+    width: 0;
+    padding: 0;
+    border-radius: 999px;
+    background: rgba(252, 253, 253, 0.644);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--ease), width var(--ease), padding var(--ease), visibility 0s linear var(--ease);
+  }
+
+  .site-header.is-past-hero .mobile-quick-actions {
+    gap: 10px;
+    width: 118px;
+    padding: 6px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity var(--ease), width var(--ease), padding var(--ease), visibility 0s linear 0s;
+  }
+  */
+
+  /* Docked stack — the hero's own CTA buttons morph into this: a vertical pair of
+     circles fixed under the hamburger, once they scroll up to meet it (`is-actions-docked`,
+     computed in script.js from the hero__actions vs. menu-toggle position). */
+  .mobile-quick-actions {
+    position: fixed;
+    top: 78px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: auto;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(252, 253, 253, 0.644);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.3);
+    transform-origin: top right;
+    transition: opacity 260ms ease, transform 260ms ease, visibility 0s linear 260ms;
+  }
+
+  .site-header.is-actions-docked .mobile-quick-actions {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: opacity 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 110ms,
+      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 110ms, visibility 0s linear 0s;
+  }
+
+  /* Retracts upward into itself while scrolling up, comes back down on scroll
+     down (`is-quick-actions-hidden`, toggled in script.js by scroll direction).
+     Only meaningful once already docked — before that the stack is already
+     hidden via the rule above. */
+  .site-header.is-actions-docked.is-quick-actions-hidden .mobile-quick-actions {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scaleY(0);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+  }
+
+  /* Hero CTA buttons collapse toward the right edge as the docked stack takes
+     over, so it reads as the buttons folding into the circles rather than a
+     plain crossfade. The label fades quickly; the button row itself scales
+     down anchored on its right edge (where it's already aligned). */
+  .hero__actions > span {
+    opacity: 1;
+    transition: opacity 180ms ease;
+  }
+
+  .hero__actions > div {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: right center;
+    transition: opacity 280ms ease, transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .site-header.is-actions-docked ~ main .hero__actions {
+    pointer-events: none;
+  }
+
+  .site-header.is-actions-docked ~ main .hero__actions > span {
+    opacity: 0;
+  }
+
+  .site-header.is-actions-docked ~ main .hero__actions > div {
+    opacity: 0;
+    transform: scaleX(0.05);
+  }
+
+  .mobile-quick-actions__button {
+    display: grid;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border-radius: 50%;
+  }
+
+  .mobile-quick-actions__button img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mobile-quick-actions__button:first-child {
+    background: #f4efe9;
+  }
+
+  .mobile-quick-actions__button:first-child img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .mobile-quick-actions__button:last-child {
+    background: var(--blue-active);
+  }
+
+  .mobile-quick-actions__button:last-child img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+  }
+
+  body.menu-open .mobile-quick-actions {
+    display: none;
+  }
+
+  /* Back-to-top — appears while scrolling up (once past the hero), fixed at
+     bottom right, aligned with the hamburger's own right inset (20px). */
+  .back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    z-index: 90;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--blue-active);
+    color: var(--white);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.3);
+    transform-origin: bottom right;
+    transition: opacity 260ms ease, transform 260ms ease, visibility 0s linear 260ms;
+  }
+
+  body.is-back-to-top-visible .back-to-top {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: opacity 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms,
+      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms, visibility 0s linear 0s;
+  }
+
+  body.menu-open .back-to-top {
+    display: none;
   }
 
   .desktop-nav {
@@ -1721,8 +1982,9 @@ textarea:focus {
 
   .menu-toggle {
     display: grid;
-    width: 52px;
-    height: 52px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
     place-items: center;
     margin-left: auto;
     border: 0;
@@ -1733,7 +1995,7 @@ textarea:focus {
 
   .menu-toggle__icon {
     display: flex;
-    width: 26px;
+    width: 20px;
     height: 16px;
     flex-direction: column;
     justify-content: space-between;
@@ -1762,7 +2024,7 @@ textarea:focus {
   .mobile-menu {
     position: fixed;
     z-index: 19;
-    inset: 72px 0 0;
+    inset: 90px 0 0;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -1874,6 +2136,17 @@ textarea:focus {
     height: 22px;
   }
 
+  .mobile-menu__cta .button--primary {
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .mobile-menu__cta .button--primary img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+  }
+
   .hero {
     position: relative;
     display: block;
@@ -1965,21 +2238,7 @@ textarea:focus {
   .mobile-assurance {
     display: block;
     padding: 8px 24px 30px;
-    background: var(--cream);
-  }
-
-  .trust-list {
-    display: none;
-    gap: 14px;
-    padding: 18px 0;
-    background: transparent;
-    backdrop-filter: none;
-  }
-
-  .trust-list p {
-    align-items: flex-start;
-    gap: 14px;
-    font-size: 14px;
+    background: var(--white);
   }
 
   .quick-info {
@@ -1988,8 +2247,6 @@ textarea:focus {
     grid-template-columns: 1fr;
     margin-top: 20px;
     gap: 5px;
-    border-radius: var(--radius-card);
-    background: var(--white);
   }
 
   .quick-info > * {
@@ -2054,41 +2311,8 @@ textarea:focus {
     padding: 15px 20px;
   }
 
-  .pricing-card__toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    cursor: pointer;
-  }
-
-  .pricing-card__toggle-icon {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--cream);
-    color: var(--blue);
-    transition: transform var(--ease);
-  }
-
-  .pricing-card__toggle[aria-expanded="true"] .pricing-card__toggle-icon {
-    transform: rotate(180deg);
-  }
-
-  .pricing-card__details[hidden] {
-    display: none;
-  }
-
   .pricing-card__details {
-    margin-top: 18px;
-  }
-
-  .pricing-card dl {
-    margin-top: 0;
+    max-height: 360px;
   }
 
   .pricing-card dl > div {
@@ -2127,56 +2351,59 @@ textarea:focus {
   }
 
   .specialty-feature__media {
-    min-height: 480px;
+    height: 300px;
   }
 
   .specialty-feature__copy {
-    padding: 34px 0 40px;
+    padding: 20px 0 20px;
+  }
+
+  .specialty-feature__eyebrow {
+    display: none;
   }
 
   .specialty-feature__copy h3 {
-    font-size: 28px;
-    letter-spacing: 0.02em;
+    margin-top: 0;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .specialty-feature__title-card {
+    position: relative;
+    padding: 24px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 50px;
+    padding-right: 100px;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--blue-active);
+  }
+
+  .specialty-feature__title-icon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 140px;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: cover;
+  }
+
+  .specialty-feature__title-card + .specialty-feature__body {
+    margin-top: 12px;
+  }
+
+  .specialty-feature__body {
+    padding: 10px 15px;
+    border-radius: var(--radius-card);
+    color: var(--white);
   }
 
   .specialty-tabs {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-    margin-top: 15px;
-    padding-right: 0;
-  }
-
-  .specialty-tabs button {
-    min-height: 64px;
-    padding: 12px;
-    font-size: 14px;
-    text-align: center;
-  }
-
-  .specialty-tabs button[aria-selected="true"] {
-    min-height: 88px;
-    grid-column: 1 / -1;
-    text-align: right;
-  }
-
-  .specialty-tabs button span {
-    position: static;
-    display: block;
-    max-width: none;
-  }
-
-  .specialty-tabs button[aria-selected="true"] span {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    max-width: 48%;
-  }
-
-  .specialty-tabs button img {
-    bottom: -8px;
-    left: 20px;
-    width: 118px;
-    height: 100px;
+    display: none;
   }
 
   .team__intro > p:last-child {
@@ -2199,9 +2426,17 @@ textarea:focus {
     order: 1;
   }
 
+  .therapist-card__identity h3 {
+    font-size: 17px;
+  }
+
+  .therapist-card__identity p {
+    font-size: 14px;
+  }
+
   .therapist-card__portrait {
     order: 2;
-    height: 600px;
+    height: 420px;
   }
 
   .therapist-card__footer {
@@ -2220,10 +2455,6 @@ textarea:focus {
     margin-top: 24px;
   }
 
-  .therapist-card__more {
-    font-size: 16px;
-  }
-
   .contact__intro > p:last-child {
     margin-top: 24px;
   }
@@ -2234,17 +2465,13 @@ textarea:focus {
     margin-top: 42px;
   }
 
-  .contact-form {
-    grid-row: auto;
-    padding: 24px 20px;
-  }
-
   .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .form-grid__wide {
-    grid-column: auto;
+  .form-grid label:nth-child(3),
+  .form-grid label:nth-child(4) {
+    grid-column: 1 / -1;
   }
 
   .contact-sidebar {
@@ -2257,10 +2484,197 @@ textarea:focus {
 
   .onedoc-card {
     order: 2;
+    padding: 0;
+    background: var(--blue);
+    box-shadow: var(--shadow-overlay);
+    transition: background-color 120ms ease;
   }
 
+  .onedoc-card:has(.onedoc-button:active) {
+    background: var(--blue-800);
+  }
+
+  .onedoc-card h3 {
+    display: none;
+  }
+
+  .onedoc-button {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 42px 1fr 16px;
+    gap: 14px;
+    margin: 0;
+    padding: 16px 20px;
+    border-radius: var(--radius-card);
+    background: transparent;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .onedoc-button__label small {
+    display: block;
+    color: var(--white);
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .onedoc-button img:first-child {
+    width: 42px;
+    height: 42px;
+    background: var(--white);
+  }
+
+  .onedoc-button__external-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Full-bleed blue section (Figma "form update"), not a card: breaks out of
+     .container's gutter but keeps the same inset as every other section
+     (padding-inline: page-gutter), square corners. Children are reordered
+     (fields → privacy note → consent → button) to match the frame without
+     touching the DOM/markup order. */
   .contact-form {
+    display: flex;
+    grid-row: auto;
     order: 3;
+    flex-direction: column;
+    width: auto;
+    margin-inline: calc(-1 * var(--page-gutter));
+    padding: 50px var(--page-gutter) 40px;
+    border-radius: 0;
+    background: var(--blue);
+    box-shadow: none;
+    color: var(--white);
+    gap: 15px;
+  }
+
+  .contact-form h2 {
+    order: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+  }
+
+  .contact-form__title-icon {
+    display: none;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--blue-active);
+  }
+
+  .contact-form .form-grid {
+    order: 1;
+    row-gap: 10px;
+  }
+
+  .contact-form .form-grid label {
+    color: var(--white);
+    font-weight: 300;
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    border-color: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--white);
+  }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .contact-form select option {
+    color: var(--ink);
+  }
+
+  .contact-form .privacy-note {
+    order: 2;
+    padding: 16px;
+    border-radius: var(--radius-card);
+    background: var(--blue-active);
+    color: var(--white);
+  }
+
+  .contact-form .privacy-note__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .contact-form .privacy-note__toggle-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+    transition: transform var(--ease);
+  }
+
+  .contact-form .privacy-note__toggle[aria-expanded="true"] .privacy-note__toggle-icon {
+    transform: rotate(0deg);
+  }
+
+  .contact-form .privacy-note__details[hidden] {
+    display: none;
+  }
+
+  .contact-form .privacy-note__details {
+    margin-top: 10px;
+  }
+
+  .contact-form .consent {
+    order: 3;
+    color: var(--white);
+  }
+
+  .contact-form .consent input {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+  }
+
+  .contact-form .consent input:checked {
+    background: var(--blue);
+    border-color: var(--white);
+  }
+
+  .contact-form .consent input:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .contact-form > .button {
+    order: 4;
+    background: var(--blue-active);
+  }
+
+  .contact-form .form-status {
+    order: 5;
+    color: var(--white);
   }
 
   .map-card {
