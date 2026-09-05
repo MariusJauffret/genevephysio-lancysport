@@ -254,19 +254,27 @@
           </div>
 
           <div class="specialty-feature" aria-live="polite">
-            <div class="specialty-feature__media">
-              <img src="assets/images/specialties/posttrauma_real.png" alt="Séance de rééducation post-traumatique" data-specialty-image loading="lazy" />
+            <div class="specialty-feature__media" data-specialty-swipe>
+              <div class="specialty-feature__media-inner">
+                <img src="assets/images/specialties/posttrauma_real.png" alt="Séance de rééducation post-traumatique" data-specialty-image loading="lazy" />
+              </div>
               <div class="specialty-feature__nav">
                 <button type="button" aria-label="Domaine précédent" data-specialty-prev><img src="assets/icons/arrow-left.svg" alt="" /></button>
                 <button type="button" aria-label="Domaine suivant" data-specialty-next><img src="assets/icons/arrow-right.svg" alt="" /></button>
               </div>
             </div>
+            <div class="specialty-feature__list">
+              <button type="button" class="specialty-feature__list-toggle" aria-expanded="false" aria-controls="specialty-list-panel" data-expertise-toggle>
+                <span class="eyebrow eyebrow--light">Domaines de prise en charge</span>
+                <span class="specialty-feature__list-icon" aria-hidden="true">
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </span>
+              </button>
+              <div class="specialty-feature__list-panel is-collapsed" id="specialty-list-panel" data-specialty-menu-list></div>
+            </div>
             <div class="specialty-feature__copy">
               <p class="eyebrow eyebrow--light specialty-feature__eyebrow">Domaine de prise en charge</p>
-              <div class="specialty-feature__title-card">
-                <h3 data-specialty-title>Rééducation post-traumatique</h3>
-                <span class="specialty-feature__title-icon" data-specialty-icon aria-hidden="true" style="background-image: url('assets/images/specialties/posttrauma.png')"></span>
-              </div>
+              <h3 data-specialty-title>Rééducation post-traumatique</h3>
               <div class="specialty-feature__body">
                 <p data-specialty-description>Un accompagnement progressif après une blessure ou une opération pour récupérer mobilité, force et confiance dans le mouvement.</p>
                 <p>Chaque suivi débute par un bilan complet afin d’adapter les exercices, les techniques manuelles et la progression à vos besoins.</p>
@@ -319,9 +327,9 @@
               </div>
               <div class="therapist-card__footer">
                 <div class="therapist-card__social">
-                  <a href="#" aria-label="LinkedIn de Maria Ricaud De La Cruz"><img src="assets/icons/linkedin.svg" alt="" /></a>
-                  <a href="#" aria-label="Instagram de Maria Ricaud De La Cruz"><img src="assets/icons/instagram.svg" alt="" /></a>
-                  <a href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Maria Ricaud De La Cruz sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
+                  <a href="https://www.linkedin.com/in/maria-ricaud-de-la-cruz-bb0790157/" target="_blank" rel="noreferrer" aria-label="LinkedIn de Maria Ricaud De La Cruz"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                  <a href="https://www.instagram.com/adosmanos_ft/" target="_blank" rel="noreferrer" aria-label="Instagram de Maria Ricaud De La Cruz"><img src="assets/icons/instagram.svg" alt="" /></a>
+                  <a href="https://www.onedoc.ch/fr/physiotherapeute/lancy/pc171/maria-ricaud-de-la-cruz" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Maria Ricaud De La Cruz sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
                 </div>
               </div>
             </article>
@@ -348,9 +356,8 @@
               </div>
               <div class="therapist-card__footer">
                 <div class="therapist-card__social">
-                  <a href="#" aria-label="LinkedIn de Benjamin Quittanson"><img src="assets/icons/linkedin.svg" alt="" /></a>
-                  <a href="#" aria-label="Instagram de Benjamin Quittanson"><img src="assets/icons/instagram.svg" alt="" /></a>
-                  <a href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Benjamin Quittanson sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
+                  <a href="/#accueil" aria-label="LinkedIn de Benjamin Quittanson"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                  <a href="https://www.onedoc.ch/fr/physiotherapeute/lancy/pcyth/benjamin-quittanson" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Benjamin Quittanson sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
                 </div>
               </div>
             </article>
@@ -374,10 +381,6 @@
                   <li><img src="assets/icons/pin.svg" alt="" /><span>Route de Chancy 59<br />1213 Petit-Lancy</span></li>
                   <li><img src="assets/icons/phone-outline.svg" alt="" /><a href="tel:+41784344311">078 434 43 11</a></li>
                   <li><img src="assets/icons/email.svg" alt="" /><a href="mailto:cabinet@genevephysio-lancysport.ch">cabinet@genevephysio-lancysport.ch</a></li>
-                  <li class="practical-card__social">
-                    <a href="#" aria-label="LinkedIn (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/linkedin.svg" alt="" /><span>LinkedIn</span><svg class="practical-card__external-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
-                    <a href="#" aria-label="Instagram (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/instagram.svg" alt="" /><span>Instagram</span><svg class="practical-card__external-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
-                  </li>
                 </ul>
               </article>
 
@@ -386,12 +389,17 @@
                 <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
                   <img src="assets/images/onedoc.png" alt="OneDoc" />
                   <span class="onedoc-button__label">
-                    <span>Réserver sur OneDoc</span>
-                    <small>Retrouver le cabinet sur OneDoc.</small>
+                    <span>OneDoc</span>
+                    <small>Réservez sur OneDoc.</small>
                   </span>
                   <svg class="onedoc-button__external-icon" width="20" height="20" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 </a>
               </article>
+
+              <div class="practical-card__social">
+                <a href="/#accueil" aria-label="LinkedIn (nouvel onglet)"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                <a href="https://www.instagram.com/gphysio_lancysport" aria-label="Instagram (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/instagram.svg" alt="" /></a>
+              </div>
             </aside>
 
             <form class="contact-form" id="formulaire" data-contact-form>
@@ -407,12 +415,13 @@
                 </span>
                 Formulaire de contact
               </h2>
+              <p class="contact-form__intro">Contactez nous à travers le formulaire, nous vous répondront dans les 48h.</p>
               <div class="form-grid">
-                <label>Prénom<input type="text" name="firstName" autocomplete="given-name" required /></label>
-                <label>Nom<input type="text" name="lastName" autocomplete="family-name" required /></label>
-                <label>Email<input type="email" name="email" autocomplete="email" required /></label>
-                <label>Téléphone<input type="tel" name="phone" autocomplete="tel" /></label>
-                <label class="form-grid__wide">Message<textarea name="message" rows="5" required></textarea></label>
+                <label><span class="form-grid__label-text">Prénom</span><input type="text" name="firstName" autocomplete="given-name" placeholder="Prénom" required /></label>
+                <label><span class="form-grid__label-text">Nom</span><input type="text" name="lastName" autocomplete="family-name" placeholder="Nom" required /></label>
+                <label><span class="form-grid__label-text">Email</span><span class="form-grid__field"><input type="email" name="email" autocomplete="email" placeholder="Email" required /><span class="form-grid__valid-icon" aria-hidden="true"></span></span></label>
+                <label><span class="form-grid__label-text">Téléphone</span><span class="form-grid__field form-grid__field--phone"><input type="tel" name="phone" autocomplete="tel" placeholder="Téléphone" /><span class="form-grid__country-badge" data-phone-country aria-hidden="true"></span><span class="form-grid__valid-icon" aria-hidden="true"></span></span></label>
+                <label class="form-grid__wide"><span class="form-grid__label-text">Message</span><textarea name="message" rows="5" placeholder="Message" required></textarea></label>
               </div>
               <label class="consent"><input type="checkbox" name="consent" required /><span>J’accepte que mes données soient utilisées pour traiter ma demande de rendez-vous.</span></label>
               <button class="button button--primary" type="submit">Envoyer la demande</button>
@@ -445,8 +454,8 @@
           </div>
           <div class="accordion" data-accordion>
             <article class="accordion__item">
-              <h3><button type="button" aria-expanded="true">Faut-il une ordonnance médicale pour consulter un physiothérapeute à Genève ?<span aria-hidden="true">−</span></button></h3>
-              <div class="accordion__panel"><p>Une prescription médicale est nécessaire pour une prise en charge par l’assurance de base. Contactez-nous si vous avez un doute sur votre situation.</p></div>
+              <h3><button type="button" aria-expanded="false">Faut-il une ordonnance médicale pour consulter un physiothérapeute à Genève ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Une prescription médicale est nécessaire pour une prise en charge par l’assurance de base. Contactez-nous si vous avez un doute sur votre situation.</p></div>
             </article>
             <article class="accordion__item">
               <h3><button type="button" aria-expanded="false">Les séances de physiothérapie sont-elles remboursées ?<span aria-hidden="true">+</span></button></h3>
@@ -497,7 +506,7 @@
           <h2>Infos pratiques</h2>
           <p><img src="assets/icons/clock.svg" alt="" />Lundi 07:30–19:00 · Mardi–Vendredi 08:00–19:00</p>
           <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59, 1213 Petit-Lancy</p>
-          <a href="tel:+41784344311"><img src="assets/icons/phone.svg" alt="" />078 434 43 11</a>
+          <a href="tel:+41784344311"><img src="assets/icons/phone-outline.svg" alt="" />078 434 43 11</a>
           <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
         </div>
       </div>
