@@ -269,7 +269,6 @@ const specialtyTabs = [...document.querySelectorAll("[data-specialty]")];
 const specialtyTitle = document.querySelector("[data-specialty-title]");
 const specialtyDescription = document.querySelector("[data-specialty-description]");
 const specialtyImage = document.querySelector("[data-specialty-image]");
-const specialtyIcon = document.querySelector("[data-specialty-icon]");
 const specialtyCount = document.querySelector("[data-specialty-count]");
 let activeSpecialty = 0;
 
@@ -418,8 +417,10 @@ function showSpecialty(index, moveFocus = false) {
   });
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
-  if (specialtyIcon) specialtyIcon.style.backgroundImage = `url('${specialty.image}')`;
   if (specialtyCount) specialtyCount.textContent = `${String(activeSpecialty + 1).padStart(2, "0")} / ${String(specialties.length).padStart(2, "0")}`;
+  specialtyMenuItems.forEach((item) => {
+    item.classList.toggle("is-active", Number(item.dataset.specialtyIndex) === activeSpecialty);
+  });
 
   if (specialtyDescription) {
     specialtyDescription.style.opacity = "0";
@@ -474,6 +475,55 @@ specialtyTabs.forEach((tab, index) => {
 document.querySelector("[data-specialty-prev]")?.addEventListener("click", () => showSpecialty(activeSpecialty - 1));
 document.querySelector("[data-specialty-next]")?.addEventListener("click", () => showSpecialty(activeSpecialty + 1));
 
+const specialtyMenuList = document.querySelector("[data-specialty-menu-list]");
+const specialtyMenuItems = [];
+
+// Display order for the 2-column grid (row-major): (0,0) Rééducation
+// post-traumatique, (0,1) Drainage lymphatique manuel, (1,0) Physiothérapie
+// respiratoire, then the rest in their natural order.
+const specialtyMenuOrder = [0, 6, 8, 1, 2, 3, 4, 5, 7];
+
+if (specialtyMenuList) {
+  specialtyMenuOrder.forEach((index) => {
+    const specialty = specialties[index];
+    const item = document.createElement("button");
+    item.type = "button";
+    item.textContent = specialty.title;
+    item.dataset.specialtyIndex = String(index);
+    item.addEventListener("click", () => showSpecialty(index));
+    item.classList.toggle("is-active", index === activeSpecialty);
+    specialtyMenuList.appendChild(item);
+    specialtyMenuItems.push(item);
+  });
+}
+
+const specialtySwipeArea = document.querySelector("[data-specialty-swipe]");
+if (specialtySwipeArea) {
+  const SWIPE_THRESHOLD = 40;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  specialtySwipeArea.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+      touchStartY = event.changedTouches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  specialtySwipeArea.addEventListener(
+    "touchend",
+    (event) => {
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+      const deltaY = event.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
+      showSpecialty(activeSpecialty + (deltaX < 0 ? 1 : -1), true);
+    },
+    { passive: true }
+  );
+}
+
 const specialtyLinks = [...document.querySelectorAll("[data-specialty-link]")];
 const specialtiesSection = document.querySelector("#expertises");
 
@@ -525,6 +575,72 @@ document.querySelectorAll("[data-accordion] .accordion__item").forEach((item) =>
 
 const contactForm = document.querySelector("[data-contact-form]");
 const formStatus = document.querySelector("[data-form-status]");
+
+// Loose, country-agnostic check: accepts any European (or wider) number —
+// national (0…) or international (+…) — regardless of spacing/grouping,
+// by counting actual digits instead of matching a fixed-length pattern.
+function isValidPhone(value) {
+  const trimmed = value.trim();
+  if (!/^[+\d\s().-]+$/.test(trimmed)) return false;
+  const digitCount = trimmed.replace(/\D/g, "").length;
+  return digitCount >= 7 && digitCount <= 15;
+}
+
+// Longest calling codes first, so a 3-digit code isn't shadowed by a 2-digit
+// one that happens to be a prefix of it.
+const phoneCountryCodes = [
+  ["351", "PT"],
+  ["352", "LU"],
+  ["353", "IE"],
+  ["358", "FI"],
+  ["420", "CZ"],
+  ["41", "CH"],
+  ["43", "AT"],
+  ["30", "GR"],
+  ["31", "NL"],
+  ["32", "BE"],
+  ["33", "FR"],
+  ["34", "ES"],
+  ["39", "IT"],
+  ["44", "UK"],
+  ["45", "DK"],
+  ["46", "SE"],
+  ["47", "NO"],
+  ["48", "PL"],
+  ["49", "GER"],
+].sort((a, b) => b[0].length - a[0].length);
+
+function detectPhoneCountry(value) {
+  const trimmed = value.trim();
+  if (trimmed.startsWith("+")) {
+    const digits = trimmed.slice(1).replace(/\D/g, "");
+    const match = phoneCountryCodes.find(([code]) => digits.startsWith(code));
+    return match ? match[1] : null;
+  }
+  if (trimmed.startsWith("0")) return "CH";
+  return null;
+}
+
+contactForm?.querySelectorAll(".form-grid__field input").forEach((field) => {
+  const isPhone = field.name === "phone";
+  const isValid = () => (isPhone ? isValidPhone(field.value) : field.checkValidity());
+  const countryBadge = field.parentElement?.querySelector("[data-phone-country]");
+
+  field.addEventListener("blur", () => {
+    const hasValue = field.value.trim() !== "";
+    const valid = hasValue && isValid();
+    if (isPhone) field.setCustomValidity(hasValue && !isValid() ? "Numéro de téléphone invalide." : "");
+    field.classList.toggle("is-valid", valid);
+    field.classList.toggle("is-invalid", hasValue && !isValid());
+    if (countryBadge) countryBadge.textContent = valid ? detectPhoneCountry(field.value) || "" : "";
+  });
+
+  field.addEventListener("input", () => {
+    if (isPhone) field.setCustomValidity("");
+    field.classList.remove("is-valid", "is-invalid");
+    if (countryBadge) countryBadge.textContent = "";
+  });
+});
 
 contactForm?.addEventListener("submit", (event) => {
   event.preventDefault();
