@@ -1237,7 +1237,7 @@ body.menu-open .desktop-nav__secondary {
 .practical-card h3,
 .contact-form h2 {
   color: var(--text);
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .contact-form__title-icon {
@@ -1261,8 +1261,8 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .practical-card li img {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   flex: 0 0 auto;
 }
 
@@ -1271,20 +1271,30 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .practical-card__social {
-  gap: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .practical-card__social a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text);
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  transition: transform var(--ease);
 }
 
-.practical-card__external-icon {
-  margin-left: -4px;
-  color: var(--text);
-  flex: 0 0 auto;
+.practical-card__social a:hover {
+  transform: translateY(-2px);
+}
+
+.practical-card__social a img {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
 }
 
 .contact-form {
@@ -2462,7 +2472,7 @@ textarea:focus {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 30px;
-    margin-top: 42px;
+    margin-top: 0px;
   }
 
   .form-grid {
@@ -2480,6 +2490,14 @@ textarea:focus {
 
   .practical-card {
     order: 1;
+    padding: 0px;
+    background: none;
+    box-shadow: none;
+    margin-top: 20px;
+  }
+
+  .practical-card h3{
+    display: none;
   }
 
   .onedoc-card {
@@ -2530,6 +2548,11 @@ textarea:focus {
     height: 16px;
   }
 
+  .practical-card__social {
+    order: 3;
+    justify-content: center;
+  }
+
   /* Full-bleed blue section (Figma "form update"), not a card: breaks out of
      .container's gutter but keeps the same inset as every other section
      (padding-inline: page-gutter), square corners. Children are reordered
@@ -2538,7 +2561,7 @@ textarea:focus {
   .contact-form {
     display: flex;
     grid-row: auto;
-    order: 3;
+    order: 4;
     flex-direction: column;
     width: auto;
     margin-inline: calc(-1 * var(--page-gutter));
@@ -2547,7 +2570,7 @@ textarea:focus {
     background: var(--blue);
     box-shadow: none;
     color: var(--white);
-    gap: 15px;
+    gap: 10px;
   }
 
   .contact-form h2 {
@@ -2670,6 +2693,7 @@ textarea:focus {
   .contact-form > .button {
     order: 4;
     background: var(--blue-active);
+    margin-top: 15px;
   }
 
   .contact-form .form-status {
@@ -2678,7 +2702,7 @@ textarea:focus {
   }
 
   .map-card {
-    order: 4;
+    order: 5;
   }
 
   .faq__layout {
