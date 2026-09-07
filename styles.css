@@ -1173,7 +1173,7 @@ body.menu-open .desktop-nav__secondary {
   z-index: -1;
   top: 80px;
   left: 0;
-  width: clamp(117px, 14.04vw, 187.2px);
+  width: clamp(82px, 9.83vw, 131px);
   aspect-ratio: 1;
   background: url("assets/logos/flavicon.png") center / contain no-repeat;
   opacity: 1;
