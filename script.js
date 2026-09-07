@@ -1,3 +1,38 @@
+// Scroll-reveal. Deliberately the first thing in this file: the .js-reveal gate
+// (which is what actually hides anything — see styles.css) and the observer that
+// un-hides it are wired in the same tick, so an error anywhere later in this
+// file can't strand content at opacity: 0. It also bails out before adding the
+// gate at all when it can't deliver the animation, leaving content plainly
+// visible rather than hidden.
+(() => {
+  const targets = [...document.querySelectorAll(".reveal")];
+  if (!targets.length) return;
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  document.documentElement.classList.add("js-reveal");
+
+  // Stagger elements that share a parent (card grids, accordion items) by the
+  // order they appear in, capped so a long list doesn't end up with a
+  // multi-second tail.
+  targets.forEach((el) => {
+    const siblings = [...el.parentElement.children].filter((child) => child.classList.contains("reveal"));
+    el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 6) * 70}ms`;
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+  );
+  targets.forEach((el) => revealObserver.observe(el));
+})();
+
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
 const navDropdowns = [...document.querySelectorAll("[data-nav-dropdown]")];
@@ -52,6 +87,8 @@ document.addEventListener("click", (event) => {
 mobileMenu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
+
+document.querySelector(".brand")?.addEventListener("click", () => setMenu(false));
 
 document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
   const panel = document.getElementById(toggle.getAttribute("aria-controls"));
@@ -269,14 +306,12 @@ const specialtyTabs = [...document.querySelectorAll("[data-specialty]")];
 const specialtyTitle = document.querySelector("[data-specialty-title]");
 const specialtyDescription = document.querySelector("[data-specialty-description]");
 const specialtyImage = document.querySelector("[data-specialty-image]");
-const specialtyIcon = document.querySelector("[data-specialty-icon]");
-const specialtyCount = document.querySelector("[data-specialty-count]");
 let activeSpecialty = 0;
 
 const SPECIALTY_TRANSITION_MS = 260;
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-// Ghost layer for the reflow animation: a detached copy of ".specialty-tabs" so cloned buttons
+// Tablet fallback for the reflow animation: a detached copy of ".specialty-tabs" so cloned buttons
 // keep their normal styling (colors, icon, padding) via the same CSS selectors, but positioned
 // with `position: fixed`, entirely outside the real grid. Real grid children are never
 // transformed directly — doing so confuses the grid's own auto-placement pass and can leave it
@@ -286,6 +321,69 @@ const specialtyGhostLayer = document.createElement("div");
 specialtyGhostLayer.className = "specialty-tabs specialty-tabs__ghost-layer";
 document.body.appendChild(specialtyGhostLayer);
 const specialtyPendingCleanup = new Map();
+const specialtyDesktopQuery = window.matchMedia("(min-width: 1025px)");
+let specialtyDesktopRows;
+let specialtyDesktopActive = 0;
+let specialtyDescriptionTimer;
+let specialtyImageTimer;
+
+function moveSpecialtyInRows(rows, previous, next, columns = 5) {
+  const source = rows.find((row) => row.includes(previous));
+  const target = rows.find((row) => row.includes(next));
+  if (!source || !target || source === target) return;
+  if (target.length + 1 > columns) {
+    const index = target.indexOf(next);
+    const [neighbor] = target.splice(index < target.length - 1 ? index + 1 : index - 1, 1);
+    source.splice(source.indexOf(previous) + 1, 0, neighbor);
+  }
+}
+
+function clearSpecialtyGhosts() {
+  specialtyPendingCleanup.forEach(({ timer, ghost }, tab) => {
+    window.clearTimeout(timer);
+    ghost.remove();
+    tab.style.visibility = "";
+  });
+  specialtyPendingCleanup.clear();
+}
+
+function applyDesktopSpecialtyLayout() {
+  if (!specialtyDesktopRows) {
+    specialtyDesktopRows = [];
+    specialtyTabs.forEach((_, index) => {
+      const row = index < 4 ? 0 : 1 + Math.floor((index - 4) / 5);
+      (specialtyDesktopRows[row] ||= []).push(index);
+    });
+    specialtyDesktopActive = 0;
+  }
+  moveSpecialtyInRows(specialtyDesktopRows, specialtyDesktopActive, activeSpecialty);
+  specialtyDesktopActive = activeSpecialty;
+  clearSpecialtyGhosts();
+  specialtyTabsContainer.classList.add("specialty-tabs--moving");
+  const style = getComputedStyle(specialtyTabsContainer);
+  const gap = parseFloat(style.columnGap) || 5;
+  const width = specialtyTabsContainer.clientWidth - parseFloat(style.paddingRight) - parseFloat(style.paddingLeft);
+  const cellWidth = (width - gap * 4) / 5;
+  // Stable wrapping throughout expansion/contraction, including long French titles.
+  specialtyTabsContainer.style.setProperty("--specialty-label-width", `${Math.max(1, cellWidth - 40)}px`);
+  specialtyTabs.forEach((tab, index) => {
+    tab.style.width = `${cellWidth * (index === activeSpecialty ? 2 : 1) + (index === activeSpecialty ? gap : 0)}px`;
+    tab.style.gridColumn = "";
+    tab.style.gridRow = "";
+  });
+  // Read text heights together after setting widths: long titles stay inside their cards.
+  const rowHeight = Math.max(120, ...specialtyTabs.map((tab) => tab.querySelector("span").scrollHeight + 40));
+  specialtyTabsContainer.style.height = `${specialtyDesktopRows.length * rowHeight + (specialtyDesktopRows.length - 1) * gap}px`;
+  specialtyDesktopRows.forEach((row, rowIndex) => {
+    let column = 0;
+    row.forEach((index) => {
+      const tab = specialtyTabs[index];
+      tab.style.height = `${rowHeight}px`;
+      tab.style.transform = `translate(${column * (cellWidth + gap)}px, ${rowIndex * (rowHeight + gap)}px)`;
+      column += index === activeSpecialty ? 2 : 1;
+    });
+  });
+}
 
 function getSpecialtyColumns() {
   if (window.innerWidth <= 767) return 2;
@@ -328,6 +426,22 @@ function computeSpecialtyPlacement(active, columns) {
 }
 
 function applySpecialtyLayout() {
+  if (!specialtyTabsContainer) return;
+  if (specialtyDesktopQuery.matches) {
+    applyDesktopSpecialtyLayout();
+    return;
+  }
+  if (specialtyTabsContainer.classList.contains("specialty-tabs--moving")) {
+    specialtyTabsContainer.classList.remove("specialty-tabs--moving");
+    specialtyTabsContainer.style.height = "";
+    specialtyTabsContainer.style.removeProperty("--specialty-label-width");
+    specialtyDesktopRows = undefined;
+    specialtyTabs.forEach((tab) => {
+      tab.style.width = "";
+      tab.style.height = "";
+      tab.style.transform = "";
+    });
+  }
   const columns = getSpecialtyColumns();
 
   // Every breakpoint gets an explicit placement, mobile included: leaving mobile to the grid's
@@ -344,7 +458,7 @@ function applySpecialtyLayout() {
 }
 
 function animateSpecialtyLayout(applyChanges) {
-  if (reduceMotionQuery.matches || !specialtyTabsContainer) {
+  if (specialtyDesktopQuery.matches || reduceMotionQuery.matches || !specialtyTabsContainer) {
     applyChanges();
     return;
   }
@@ -418,36 +532,69 @@ function showSpecialty(index, moveFocus = false) {
   });
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
-  if (specialtyIcon) specialtyIcon.style.backgroundImage = `url('${specialty.image}')`;
-  if (specialtyCount) specialtyCount.textContent = `${String(activeSpecialty + 1).padStart(2, "0")} / ${String(specialties.length).padStart(2, "0")}`;
+  specialtyMenuItems.forEach((item) => {
+    item.classList.toggle("is-active", Number(item.dataset.specialtyIndex) === activeSpecialty);
+  });
 
   if (specialtyDescription) {
+    window.clearTimeout(specialtyDescriptionTimer);
     specialtyDescription.style.opacity = "0";
-    window.setTimeout(() => {
+    specialtyDescriptionTimer = window.setTimeout(() => {
       specialtyDescription.textContent = specialty.description;
       specialtyDescription.style.opacity = "1";
-    }, 180);
+    }, reduceMotionQuery.matches ? 0 : 180);
   }
-
   if (specialtyImage) {
+    window.clearTimeout(specialtyImageTimer);
     specialtyImage.style.opacity = "0";
-    window.setTimeout(() => {
+    specialtyImageTimer = window.setTimeout(() => {
       specialtyImage.src = specialty.photo || specialty.image;
       specialtyImage.alt = specialty.alt;
       specialtyImage.style.opacity = "1";
-    }, 120);
+    }, reduceMotionQuery.matches ? 0 : 120);
   }
 
   if (moveFocus) specialtyTabs[activeSpecialty]?.focus();
 }
 
 applySpecialtyLayout();
+specialtyTabs.forEach((tab, index) => { tab.tabIndex = index === activeSpecialty ? 0 : -1; });
+
+// The tab thumbnails are marked loading="lazy" so a phone never downloads all
+// nine (the tab grid is display:none below 768px, and only the active tab's
+// thumbnail is ever shown above it). That alone would leave a visible gap the
+// first time a desktop visitor switches tabs, so once the page is idle we warm
+// the cache in the background — but only when the grid is actually rendered.
+if (specialtyTabsContainer?.offsetParent !== null) {
+  const warmSpecialtyThumbnails = () => {
+    specialtyTabs.forEach((tab) => {
+      const src = tab.querySelector("img")?.getAttribute("src");
+      if (src) new Image().src = src;
+    });
+  };
+
+  if ("requestIdleCallback" in window) window.requestIdleCallback(warmSpecialtyThumbnails, { timeout: 3000 });
+  else window.setTimeout(warmSpecialtyThumbnails, 1200);
+}
 
 let specialtyResizeTimer;
 window.addEventListener("resize", () => {
   window.clearTimeout(specialtyResizeTimer);
   specialtyResizeTimer = window.setTimeout(applySpecialtyLayout, 150);
 });
+specialtyDesktopQuery.addEventListener("change", () => {
+  clearSpecialtyGhosts();
+  applySpecialtyLayout();
+});
+if (specialtyTabsContainer && "ResizeObserver" in window) {
+  let lastWidth = 0;
+  new ResizeObserver(([entry]) => {
+    if (entry.contentRect.width === lastWidth) return;
+    lastWidth = entry.contentRect.width;
+    if (specialtyDesktopQuery.matches) applySpecialtyLayout();
+  }).observe(specialtyTabsContainer);
+}
+document.fonts?.ready.then(() => { if (specialtyDesktopQuery.matches) applySpecialtyLayout(); });
 
 specialtyTabs.forEach((tab, index) => {
   tab.addEventListener("click", () => showSpecialty(index));
@@ -474,6 +621,62 @@ specialtyTabs.forEach((tab, index) => {
 document.querySelector("[data-specialty-prev]")?.addEventListener("click", () => showSpecialty(activeSpecialty - 1));
 document.querySelector("[data-specialty-next]")?.addEventListener("click", () => showSpecialty(activeSpecialty + 1));
 
+const specialtyMenuList = document.querySelector("[data-specialty-menu-list]");
+const specialtyMenuItems = [];
+
+// Display order for the 2-column grid (row-major): (0,0) Rééducation
+// post-traumatique, (0,1) Drainage lymphatique manuel, (1,0) Physiothérapie
+// respiratoire, then the rest in their natural order.
+const specialtyMenuOrder = [0, 6, 8, 1, 2, 3, 4, 5, 7];
+
+if (specialtyMenuList) {
+  specialtyMenuOrder.forEach((index) => {
+    const specialty = specialties[index];
+    const item = document.createElement("button");
+    item.type = "button";
+    item.textContent = specialty.title;
+    item.dataset.specialtyIndex = String(index);
+    item.addEventListener("click", () => {
+      showSpecialty(index);
+      const toggle = document.querySelector('.specialty-feature__list-toggle');
+      toggle?.setAttribute("aria-expanded", "false");
+      toggle?.classList.remove("is-open");
+      specialtyMenuList.closest(".specialty-feature__list-panel")?.classList.add("is-collapsed");
+      toggle?.focus({ preventScroll: true });
+    });
+    item.classList.toggle("is-active", index === activeSpecialty);
+    specialtyMenuList.appendChild(item);
+    specialtyMenuItems.push(item);
+  });
+}
+
+const specialtySwipeArea = document.querySelector("[data-specialty-swipe]");
+if (specialtySwipeArea) {
+  const SWIPE_THRESHOLD = 40;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  specialtySwipeArea.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+      touchStartY = event.changedTouches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  specialtySwipeArea.addEventListener(
+    "touchend",
+    (event) => {
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+      const deltaY = event.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
+      showSpecialty(activeSpecialty + (deltaX < 0 ? 1 : -1), true);
+    },
+    { passive: true }
+  );
+}
+
 const specialtyLinks = [...document.querySelectorAll("[data-specialty-link]")];
 const specialtiesSection = document.querySelector("#expertises");
 
@@ -491,7 +694,10 @@ specialtyLinks.forEach((link) => {
     closeNavDropdowns();
     setMenu(false);
     window.history.pushState(null, "", link.hash);
-    specialtiesSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (specialtiesSection) {
+      const targetY = window.scrollY + specialtiesSection.getBoundingClientRect().top + 200;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    }
   });
 });
 
@@ -526,9 +732,66 @@ document.querySelectorAll("[data-accordion] .accordion__item").forEach((item) =>
 const contactForm = document.querySelector("[data-contact-form]");
 const formStatus = document.querySelector("[data-form-status]");
 
+function parseContactPhone(value) {
+  const normalized = value.trim().replace(/^00/, "+");
+  if (!normalized || !/^\+?[\d\s().-]+$/.test(normalized)) return null;
+  return window.libphonenumber.parsePhoneNumberFromString(normalized, {
+    defaultCountry: "CH",
+    extract: false,
+  }) || null;
+}
+
+const phoneField = contactForm?.querySelector('[name="phone"]');
+const phoneBadge = contactForm?.querySelector("[data-phone-country]");
+const phoneClear = contactForm?.querySelector(".form-grid__phone-clear");
+let phoneTouched = false;
+
+function validateContactPhone(showError = false) {
+  if (!phoneField) return true;
+  const hasValue = phoneField.value.trim() !== "";
+  const parsed = parseContactPhone(phoneField.value);
+  const valid = Boolean(parsed?.isValid());
+  const invalid = hasValue && !valid;
+  phoneField.setCustomValidity(invalid ? "Numéro invalide. Vérifiez le numéro et son indicatif (ex. +41 pour la Suisse)." : "");
+  phoneField.classList.toggle("is-valid", hasValue && valid);
+  phoneField.classList.toggle("is-invalid", invalid && showError);
+  phoneField.setAttribute("aria-invalid", String(invalid && showError));
+  if (phoneClear) phoneClear.hidden = !(invalid && showError);
+  if (phoneBadge) {
+    const country = valid ? parsed.country : null;
+    phoneBadge.textContent = country || "";
+    phoneBadge.title = country ? new Intl.DisplayNames(["fr"], { type: "region" }).of(country) : "";
+  }
+  return !invalid;
+}
+
+phoneField?.addEventListener("input", () => validateContactPhone(phoneTouched));
+phoneField?.addEventListener("blur", () => {
+  phoneTouched = true;
+  validateContactPhone(true);
+});
+phoneField?.addEventListener("invalid", () => {
+  phoneTouched = true;
+  validateContactPhone(true);
+});
+phoneClear?.addEventListener("click", () => {
+  phoneField.value = "";
+  phoneTouched = false;
+  phoneField.dispatchEvent(new Event("input", { bubbles: true }));
+  phoneField.focus();
+});
+
+const emailField = contactForm?.querySelector('[name="email"]');
+emailField?.addEventListener("blur", () => {
+  const hasValue = emailField.value.trim() !== "";
+  emailField.classList.toggle("is-valid", hasValue && emailField.checkValidity());
+  emailField.classList.toggle("is-invalid", hasValue && !emailField.checkValidity());
+});
+emailField?.addEventListener("input", () => emailField.classList.remove("is-valid", "is-invalid"));
 contactForm?.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  validateContactPhone(true);
   if (!contactForm.checkValidity()) {
     contactForm.reportValidity();
     return;
