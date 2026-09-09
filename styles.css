@@ -594,8 +594,8 @@ body.menu-open .desktop-nav__secondary {
 
 .icon-external {
   display: inline-block;
-  width: 0.75em;
-  height: 0.75em;
+  width: 11px;
+  height: 11px;
   margin-left: 3px;
   vertical-align: 0.02em;
   text-decoration: none;
@@ -644,13 +644,6 @@ body.menu-open .desktop-nav__secondary {
 
 .mobile-assurance {
   display: none;
-}
-
-.mobile-assurance__mark {
-  display: block;
-  width: auto;
-  height: 93px;
-  margin: 16px 0 0 5px;
 }
 
 .section-divider {
@@ -875,6 +868,44 @@ body.menu-open .desktop-nav__secondary {
   background: var(--blue-active);
   padding: 20px;
   font-size: 16px;
+}
+
+.contact-sidebar .access-card {
+  margin-top: 0;
+  background: var(--white);
+  color: #46525c;
+}
+
+.access-card .eyebrow {
+  color: inherit;
+}
+
+.access-card__list {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.access-card__list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.access-card__list img {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+.access-card__list .access-card__list-logo {
+  width: 44px;
+  height: auto;
 }
 
 .treatments-intro__media {
@@ -1184,7 +1215,7 @@ body.menu-open .desktop-nav__secondary {
   left: 0;
   width: clamp(82px, 9.83vw, 131px);
   aspect-ratio: 1;
-  background: url("assets/logos/flavicon.png") center / contain no-repeat;
+  background: url("assets/logos/logo-2-petrolaccent.png") center / contain no-repeat;
   opacity: 1;
   pointer-events: none;
 }
@@ -1383,6 +1414,11 @@ body.menu-open .desktop-nav__secondary {
   color: var(--white);
 }
 
+.online-booking__eyebrow,
+.online-booking__title {
+  display: none;
+}
+
 .onedoc-card h3 {
   color: var(--white);
   font-size: 20px;
@@ -1454,8 +1490,8 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .practical-card li img {
-  width: 50px;
-  height: 50px;
+  width: 38px;
+  height: 38px;
   flex: 0 0 auto;
 }
 
@@ -1488,6 +1524,16 @@ body.menu-open .desktop-nav__secondary {
   width: 25px;
   height: 25px;
   object-fit: cover;
+}
+
+.practical-card__social a.onedoc {
+  width: auto;
+  padding-inline: 16px;
+}
+
+.practical-card__social a.onedoc img {
+  width: auto;
+  height: 30px;
 }
 
 .contact-form {
@@ -2061,11 +2107,11 @@ textarea:focus {
   }
 
   .brand {
-    width: 150px;
+    width: 77px;
     overflow: hidden;
     opacity: 1;
     visibility: visible;
-    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear 0s;
+    transition: opacity var(--ease-slow), width 0s linear 0s, visibility 0s linear 0s;
   }
 
   .site-header.is-compact .brand {
@@ -2073,15 +2119,15 @@ textarea:focus {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear var(--ease-slow);
+    transition: opacity var(--ease-slow), width 0s linear 400ms, visibility 0s linear 400ms;
   }
 
   body.menu-open .site-header .brand {
-    width: 150px;
+    width: 77px;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: opacity var(--ease-slow), width var(--ease-slow), visibility 0s linear 0s;
+    transition: opacity var(--ease-slow), width 0s linear 0s, visibility 0s linear 0s;
   }
 
   .brand__color {
@@ -2135,7 +2181,7 @@ textarea:focus {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--ease), width var(--ease), padding var(--ease), visibility 0s linear var(--ease);
+    transition: opacity var(--ease), width var(--ease), padding var(--ease), visibility 0s linear 240ms;
   }
 
   .site-header.is-past-hero .mobile-quick-actions {
@@ -2371,9 +2417,14 @@ textarea:focus {
     transition: background-color var(--ease);
   }
 
-  .mobile-menu nav a:hover,
   .mobile-menu nav a:active {
     background: var(--blue-50);
+  }
+
+  @media (hover: hover) {
+    .mobile-menu nav a:hover {
+      background: var(--blue-50);
+    }
   }
 
   .mobile-menu__label {
@@ -2395,8 +2446,10 @@ textarea:focus {
     transition: background-color var(--ease);
   }
 
-  .mobile-menu__label:hover {
-    background: var(--blue-50);
+  @media (hover: hover) {
+    .mobile-menu__label:hover {
+      background: var(--blue-50);
+    }
   }
 
   .mobile-menu__label[aria-expanded="true"] {
@@ -2419,12 +2472,23 @@ textarea:focus {
   .mobile-menu__treatments {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
     gap: 5px;
-    padding-bottom: 10px;
+    max-height: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height var(--ease-slow), padding-bottom var(--ease-slow), opacity var(--ease-slow);
   }
 
-  .mobile-menu__treatments[hidden] {
-    display: none;
+  .mobile-menu__treatments.is-open {
+    max-height: 340px;
+    padding-bottom: 10px;
+    opacity: 1;
+  }
+
+  .mobile-menu__treatments:not(.is-open) a {
+    pointer-events: none;
   }
 
   .mobile-menu nav .mobile-menu__treatments a {
@@ -2890,16 +2954,39 @@ textarea:focus {
     display: none;
   }
 
-  .onedoc-card {
-    order: 2;
-    padding: 0;
-    background: var(--blue);
-    box-shadow: var(--shadow-overlay);
-    transition: background-color 120ms ease;
+  .contact-sidebar .access-card {
+    order: 1;
   }
 
-  .onedoc-card:has(.onedoc-button:active) {
-    background: var(--blue-800);
+  .practical-card__social {
+    order: 2;
+    justify-content: center;
+  }
+
+  .online-booking {
+    order: 3;
+    margin: 0 calc(-1 * var(--page-gutter)) -30px;
+    padding: 40px var(--page-gutter) 30px;
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .online-booking__eyebrow {
+    display: block;
+    margin: 0 0 10px;
+  }
+
+  .online-booking__title {
+    display: block;
+    margin: 0 0 30px;
+    color: var(--white);
+    font-size: 26px;
+  }
+
+  .onedoc-card {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .onedoc-card h3 {
@@ -2914,10 +3001,14 @@ textarea:focus {
     margin: 0;
     padding: 16px 20px;
     border-radius: var(--radius-card);
-    background: transparent;
+    background: var(--blue-800);
     font-size: 17px;
     font-weight: 400;
     letter-spacing: 0.04em;
+  }
+
+  .onedoc-button:active {
+    background: var(--blue-950);
   }
 
   .onedoc-button__label small {
@@ -2938,11 +3029,6 @@ textarea:focus {
     height: 16px;
   }
 
-  .practical-card__social {
-    order: 3;
-    justify-content: center;
-  }
-
   /* Full-bleed blue section (Figma "form update"), not a card: breaks out of
      .container's gutter but keeps the same inset as every other section
      (padding-inline: page-gutter), square corners. Children are reordered
@@ -2955,7 +3041,7 @@ textarea:focus {
     flex-direction: column;
     width: auto;
     margin-inline: calc(-1 * var(--page-gutter));
-    padding: 50px var(--page-gutter) 40px;
+    padding: 0 var(--page-gutter) 40px;
     border-radius: 0;
     background: var(--blue);
     box-shadow: none;
@@ -2969,6 +3055,7 @@ textarea:focus {
     align-items: center;
     gap: 12px;
     color: var(--white);
+    font-size: 22px;
   }
 
   .contact-form__intro {
@@ -3183,10 +3270,6 @@ textarea:focus {
 }
 
 @media (max-width: 380px) {
-  .brand {
-    width: 160px;
-  }
-
   .specialty-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
