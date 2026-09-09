@@ -25,8 +25,8 @@
 
     <header class="site-header" data-header>
       <a class="brand" href="#accueil" aria-label="Genève Physio Lancy Sport, accueil">
-        <img class="brand__color" src="assets/logos/logo-couleur.png" alt="Genève Physio Lancy Sport" width="215" height="71" />
-        <img class="brand__white" src="assets/logos/logo-blanc.png" alt="" aria-hidden="true" width="215" height="71" />
+        <img class="brand__color" src="assets/logos/logo-2-petrolaccent.png" alt="Genève Physio Lancy Sport" width="150" height="150" />
+        <img class="brand__white" src="assets/logos/logo-2-blanc.png" alt="" aria-hidden="true" width="150" height="150" />
       </a>
 
       <nav class="desktop-nav" aria-label="Navigation principale">
@@ -36,7 +36,7 @@
             <button type="button" aria-expanded="false" aria-controls="treatments-dropdown" data-nav-toggle>
               Traitements
               <span class="nav-dropdown__icon" aria-hidden="true">
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
               </span>
             </button>
             <div class="nav-flyout" id="treatments-dropdown">
@@ -55,7 +55,7 @@
             <button type="button" aria-expanded="false" aria-controls="expertise-dropdown" data-nav-toggle>
               Expertise
               <span class="nav-dropdown__icon" aria-hidden="true">
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
               </span>
             </button>
             <div class="nav-flyout nav-flyout--narrow" id="expertise-dropdown">
@@ -102,7 +102,7 @@
             <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </span>
         </button>
-        <div class="mobile-menu__treatments" id="mobile-menu-treatments" hidden>
+        <div class="mobile-menu__treatments" id="mobile-menu-treatments">
           <a href="#domaine-reeducation-post-traumatique" data-specialty-link="0">Rééducation post-traumatique</a>
           <a href="#domaine-rhumatologie" data-specialty-link="1">Rhumatologie</a>
           <a href="#domaine-neurologie" data-specialty-link="2">Neurologie</a>
@@ -119,12 +119,22 @@
             <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </span>
         </button>
-        <div class="mobile-menu__treatments" id="mobile-menu-expertise" hidden>
+        <div class="mobile-menu__treatments" id="mobile-menu-expertise">
             <a href="#expertises">Physiothérpaie de l'épaule</a>
             <a href="#expertises">Physiothérpaie du genou</a>
         </div>
         <a href="#equipe">Notre équipe</a>
-        <a href="#contact">Contact</a>
+        <button type="button" class="mobile-menu__label" aria-expanded="false" aria-controls="mobile-menu-contact" data-collapsible-toggle>
+          Contact
+          <span class="mobile-menu__label-icon" aria-hidden="true">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+        </button>
+        <div class="mobile-menu__treatments" id="mobile-menu-contact">
+          <a href="#contact">Infos pratiques</a>
+          <a href="#acces-transport" data-access-link>Accès et transport</a>
+          <a href="#rendez-vous-en-ligne">Rendez-vous en ligne</a>
+        </div>
         <a href="#faq">FAQ</a>
       </nav>
       <div class="mobile-menu__cta">
@@ -164,7 +174,7 @@
             <div class="quick-info">
               <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
               <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
-              <a class="address-link" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Route de Chancy 59, 1213 Petit-Lancy — voir sur Google Maps"><img class="address-link__pin" src="assets/icons/pin.svg" alt="" width="38" height="38" /><span>Route de Chancy 59<br />1213 Petit-Lancy<span class="address-link__hint">Voir sur Google Maps <svg class="icon-external" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
+              <a class="address-link" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Route de Chancy 59, 1213 Petit-Lancy — voir sur Google Maps"><img class="address-link__pin" src="assets/icons/pin.svg" alt="" width="38" height="38" /><span>Route de Chancy 59<br />1213 Petit-Lancy<span class="address-link__hint">Voir sur Google Maps <svg class="icon-external" width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
             </div>
           </div>
         </div>
@@ -177,11 +187,10 @@
       </section>
 
       <aside class="mobile-assurance" aria-label="Informations pratiques et prise en charge">
-        <img class="mobile-assurance__mark" src="assets/logos/logo-couleur.png" alt="" loading="lazy" />
         <div class="quick-info">
           <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
           <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
-          <a class="address-link" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Route de Chancy 59, 1213 Petit-Lancy — voir sur Google Maps"><img class="address-link__pin" src="assets/icons/pin.svg" alt="" width="38" height="38" /><span>Route de Chancy 59<br />1213 Petit-Lancy<span class="address-link__hint">Voir sur Google Maps <svg class="icon-external" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
+          <a class="address-link" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Route de Chancy 59, 1213 Petit-Lancy — voir sur Google Maps"><img class="address-link__pin" src="assets/icons/pin.svg" alt="" width="38" height="38" /><span>Route de Chancy 59<br />1213 Petit-Lancy<span class="address-link__hint">Voir sur Google Maps <svg class="icon-external" width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
         </div>
       </aside>
 
@@ -231,7 +240,7 @@
               <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="pricing-card-details" data-expertise-toggle>
                 <span class="eyebrow eyebrow--light">Positions tarifaires LAMal</span>
                 <span class="pricing-card__toggle-icon" aria-hidden="true">
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 </span>
               </button>
               <div class="pricing-card__details is-collapsed" id="pricing-card-details">
@@ -275,7 +284,7 @@
               <button type="button" class="specialty-feature__list-toggle" aria-expanded="false" aria-controls="specialty-list-panel" data-expertise-toggle>
                 <span class="eyebrow eyebrow--light">Domaines de prise en charge</span>
                 <span class="specialty-feature__list-icon" aria-hidden="true">
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 </span>
               </button>
               <div class="specialty-feature__list-panel is-collapsed" id="specialty-list-panel">
@@ -328,7 +337,7 @@
                   <button type="button" class="therapist-card__expertise-toggle" aria-expanded="false" aria-controls="expertise-maria" data-expertise-toggle>
                     <span class="eyebrow eyebrow--light">Expertise</span>
                     <span class="therapist-card__expertise-icon" aria-hidden="true">
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                     </span>
                   </button>
                   <div class="therapist-card__expertise-panel is-collapsed" id="expertise-maria">
@@ -357,7 +366,7 @@
                   <button type="button" class="therapist-card__expertise-toggle" aria-expanded="false" aria-controls="expertise-benjamin" data-expertise-toggle>
                     <span class="eyebrow eyebrow--light">Expertise</span>
                     <span class="therapist-card__expertise-icon" aria-hidden="true">
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                     </span>
                   </button>
                   <div class="therapist-card__expertise-panel is-collapsed" id="expertise-benjamin">
@@ -380,7 +389,7 @@
       <section class="section contact" id="contact" aria-labelledby="contact-title">
         <div class="container">
           <div class="contact__intro section-copy reveal">
-            <p class="eyebrow eyebrow--line">Planifiez votre rendez-vous</p>
+            <p class="eyebrow eyebrow--line">Venez à notre rencontre</p>
             <h2 id="contact-title">Contact</h2>
           </div>
 
@@ -392,25 +401,47 @@
                   <li><img src="assets/icons/clock.svg" alt="" /><span>Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</span></li>
                   <li><img src="assets/icons/phone-outline.svg" alt="" /><a href="tel:+41784344311">078 434 43 11</a></li>
                   <li><img src="assets/icons/email.svg" alt="" /><a href="mailto:cabinet@genevephysio-lancysport.ch">cabinet@genevephysio-lancysport.ch</a></li>
-                  <li><img src="assets/icons/pin.svg" alt="" /><span>Route de Chancy 59<br />1213 Petit-Lancy<a class="address-directions" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer">Voir sur Google Maps <svg class="icon-external" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></li>
+                  <li><img src="assets/icons/pin.svg" alt="" /><span>Route de Chancy 59<br />1213 Petit-Lancy<a class="address-directions" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer">Voir sur Google Maps <svg class="icon-external" width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></li>
                 </ul>
               </article>
 
-              <article class="onedoc-card reveal">
-                <h3>Prendre rendez-vous sur OneDoc</h3>
-                <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
-                  <img src="assets/images/onedoc.png" alt="OneDoc" />
-                  <span class="onedoc-button__label">
-                    <span>OneDoc</span>
-                    <small>Réservez sur OneDoc.</small>
+              <article class="pricing-card access-card reveal" id="acces-transport">
+                <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="access-card-details" data-expertise-toggle>
+                  <span class="eyebrow">Transports et accès</span>
+                  <span class="pricing-card__toggle-icon" aria-hidden="true">
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                   </span>
-                  <svg class="onedoc-button__external-icon" width="20" height="20" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                </a>
+                </button>
+                <ul class="access-card__list pricing-card__details is-collapsed" id="access-card-details">
+                  <li>
+                    <img class="access-card__list-logo" src="assets/access-icons/tpg-logo.png" alt="TPG" />
+                    <span>Petit Lancy, Boissons — 21, 22, 23, 28<br />Les Esserts — 14, 40, 42, A4</span>
+                  </li>
+                  <li><img src="assets/access-icons/parking-0d7ec9.png" alt="" /><span>Places de parking à proximité — Parking Lancy-Onex</span></li>
+                  <li><img src="assets/access-icons/wheelchair-0d7ec9.png" alt="" /><span>Accès pour personnes à mobilité réduite disponible. Possibilité d’accompagner un patient depuis l’extérieur.</span></li>
+                </ul>
               </article>
+
+              <div class="online-booking" id="rendez-vous-en-ligne">
+                <p class="online-booking__eyebrow eyebrow eyebrow--light">Planifiez votre rendez-vous en ligne</p>
+                <h2 class="online-booking__title">Rendez-vous en ligne</h2>
+                <article class="onedoc-card reveal">
+                  <h3>Prendre rendez-vous sur OneDoc</h3>
+                  <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
+                    <img src="assets/images/onedoc.png" alt="OneDoc" />
+                    <span class="onedoc-button__label">
+                      <span>OneDoc</span>
+                      <small>Réservez sur OneDoc.</small>
+                    </span>
+                    <svg class="onedoc-button__external-icon" width="20" height="20" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </a>
+                </article>
+              </div>
 
               <div class="practical-card__social">
                 <a href="/#accueil" aria-label="LinkedIn (nouvel onglet)"><img src="assets/icons/linkedin.svg" alt="" /></a>
                 <a href="https://www.instagram.com/gphysio_lancysport" aria-label="Instagram (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/instagram.svg" alt="" /></a>
+                <a href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
               </div>
             </aside>
 
@@ -441,7 +472,7 @@
             <a class="map-card" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Voir le cabinet sur la carte">
               <img class="map-card__image" src="assets/images/map.png" alt="" loading="lazy" />
               <span class="map-card__pin"><img src="assets/icons/pin.svg" alt="" /></span>
-              <span>Voir sur Google Maps <svg class="icon-external" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span>Voir sur Google Maps <svg class="icon-external" width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 8L8 4M8 4H4.5M8 4V7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </a>
           </div>
         </div>
