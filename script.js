@@ -90,12 +90,25 @@ mobileMenu?.querySelectorAll("a").forEach((link) => {
 
 document.querySelector(".brand")?.addEventListener("click", () => setMenu(false));
 
+const mobileMenuToggles = [...document.querySelectorAll("[data-mobile-menu] [data-collapsible-toggle]")];
+
 document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
   const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+  const isMobileMenuToggle = mobileMenuToggles.includes(toggle);
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
+
+    if (!open && isMobileMenuToggle) {
+      mobileMenuToggles.forEach((other) => {
+        if (other === toggle) return;
+        other.setAttribute("aria-expanded", "false");
+        document.getElementById(other.getAttribute("aria-controls"))?.classList.remove("is-open");
+      });
+    }
+
     toggle.setAttribute("aria-expanded", String(!open));
-    if (panel) panel.hidden = open;
+    if (isMobileMenuToggle) panel?.classList.toggle("is-open", !open);
+    else if (panel) panel.hidden = open;
   });
 });
 
@@ -107,6 +120,17 @@ document.querySelectorAll("[data-expertise-toggle]").forEach((toggle) => {
     toggle.classList.toggle("is-open", open);
     panel?.classList.toggle("is-collapsed", !open);
   });
+});
+
+document.querySelector("[data-access-link]")?.addEventListener("click", (event) => {
+  event.preventDefault();
+  const card = document.getElementById("acces-transport");
+  const toggle = card?.querySelector("[data-expertise-toggle]");
+  if (toggle && toggle.getAttribute("aria-expanded") !== "true") toggle.click();
+  if (card) {
+    const targetY = window.scrollY + card.getBoundingClientRect().top - 165;
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+  }
 });
 
 document.addEventListener("keydown", (event) => {
